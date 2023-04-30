@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "450200143151",
+    "firebase_url": "https://heyy-7c685-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "heyy-7c685",
+    "storage_bucket": "heyy-7c685.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450200143151:android:94c7f59b66852692708dda",
+        "android_client_info": {
+          "package_name": "com.skeleton.flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLzTAMDy_DN20Kdt7oesaa7a-wgXOt8Xc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
