@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.skeleton.flutter_app">
+    package="com.praveen.heyy">
    <application
         android:label="flutter_app"
         android:name="${applicationName}"

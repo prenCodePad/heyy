@@ -30,6 +30,13 @@
             {
               "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "450200143151-ch1sugr5liipnda22osctjaps9gsfumj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skeleton.flutterApp"
+              }
             }
           ]
         }

@@ -1,4 +1,4 @@
-package com.skeleton.flutter_app
+package com.praveen.heyy
 
 import io.flutter.embedding.android.FlutterActivity
 
