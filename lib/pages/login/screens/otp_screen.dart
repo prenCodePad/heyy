@@ -49,15 +49,14 @@ class OTPScreen extends StatelessWidget with AppMixin {
                     child: Button(
                       text: 'Verify',
                       onPressed: () async {
-
-                        // await snc.loginUser().then((value) {
-                        //   if (value) {
-                        //     Navigator.pushNamed(context, Routes.userSetupPage);
-                        //     snc.loginView.value = LoginView.userSetupView;
-                        //   } else {
-                        //     Get.snackbar('Warning', 'Incorrect Otp');
-                        //   }
-                        // });
+                        await snc.loginUser().then((value) {
+                          if (value) {
+                            Navigator.pushNamed(context, Routes.userSetupPage);
+                            snc.loginView.value = LoginView.userSetupView;
+                          } else {
+                            Get.snackbar('Warning', 'Incorrect Otp');
+                          }
+                        });
                       },
                     ),
                   ),

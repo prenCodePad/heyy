@@ -5,6 +5,7 @@ import 'package:heyy/common/app_mixin.dart';
 import 'package:heyy/controllers/controllers.dart';
 import 'package:heyy/pages/pages.dart';
 import 'package:heyy/routing/routes.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginScreen extends StatelessWidget with AppMixin {
   const LoginScreen({Key? key}) : super(key: key);
@@ -51,22 +52,24 @@ class LoginScreen extends StatelessWidget with AppMixin {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
-                  height: 48,
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    controller: snc.phoneController,
-                    keyboardType: TextInputType.number,
-                    onChanged: snc.onPhoneNumberChanged,
+                  height: 72,
+                  child: IntlPhoneField(
+                    textAlignVertical: TextAlignVertical.center,
+                    style: theme.bodySmall(color: Colors.black),
+                    initialCountryCode: 'IN',
                     decoration: InputDecoration(
                       fillColor: Colors.white,
                       filled: true,
                       hintText: 'Enter Phone Number',
-                      contentPadding: const EdgeInsets.all(16.0),
+                      contentPadding: const EdgeInsets.all(8.0),
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(25.0),
                       ),
                     ),
+                    controller: snc.phoneController,
+                    keyboardType: TextInputType.number,
+                    onChanged: (ph) => snc.onPhoneNumberChanged(ph.completeNumber),
                   ),
                 ),
               ),
@@ -75,14 +78,16 @@ class LoginScreen extends StatelessWidget with AppMixin {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Button(
                     text: 'SignIn',
-                    onPressed: () {
-                      if (snc.phoneNo.value.isEmpty) {
-                        Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
-                        return;
-                      }
-                      snc.loginView.value = LoginView.otpView;
-                      Navigator.pushNamed(context, Routes.otpPage);
-                      //snc.getOtp(onComplete: (_) {});
+                    onPressed: () async {
+                      await snc.getOtp(onComplete: (_) {}).then((value) {});
+                      Navigator.of(context).pop();
+                      // if (snc.phoneNo.value.isEmpty) {
+                      //   Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
+                      //   return;
+                      // }
+                      // snc.loginView.value = LoginView.otpView;
+                      // await snc.getOtp(onComplete: (_) {});
+                      // Navigator.pushNamed(context, Routes.otpPage);
                     }),
               ),
             ],

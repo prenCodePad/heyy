@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "450200143151-sa9ho31pjqblc5gf5de2b4l46qis8d70.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.praveen.heyy",
+            "certificate_hash": "13754c7790234c1ae2aa3c433bb4448cb528ca35"
+          }
+        },
+        {
           "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
           "client_type": 3
         }

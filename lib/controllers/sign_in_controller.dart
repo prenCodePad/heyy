@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heyy_backend/heyy_backend.dart';
 
 enum LoginView { loginView, otpView, userSetupView }
 
@@ -31,25 +32,12 @@ class SignInController extends GetxController {
   onUserNameChanged(String name) => userName.value = name;
 
   Future<bool> loginUser() async {
-    bool login = false;
-    await FirebaseAuth.instance
-        .signInWithCredential(PhoneAuthProvider.credential(verificationId: otp.value, smsCode: codeController.text))
-        .then((value) {
-      if (value.user != null) {
-        login = true;
-      }
-    });
-    return login;
+    return await AuthUsingPhone.verify(otp.value, codeController.text);
   }
 
-  getOtp({required void Function(PhoneAuthCredential) onComplete}) async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+91${phoneNo.value}',
-        verificationCompleted: onComplete,
-        verificationFailed: (e) => print(e.message),
-        codeSent: (id, resend) {
-          otp.value = id;
-        },
-        codeAutoRetrievalTimeout: (_) {});
+  Future<void> getOtp({required void Function(PhoneAuthCredential) onComplete}) async {
+    print(phoneNo.value);
+    otp.value = await AuthUsingPhone.login('+91${phoneNo.value}') ?? '';
+    print('OTP ${otp.value}');
   }
 }
