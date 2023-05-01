@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:450200143151:android:94c7f59b66852692708dda",
+        "mobilesdk_app_id": "1:450200143151:android:a9da177dbeb155bd708dda",
         "android_client_info": {
-          "package_name": "com.skeleton.flutter_app"
+          "package_name": "com.praveen.heyy"
         }
       },
       "oauth_client": [
