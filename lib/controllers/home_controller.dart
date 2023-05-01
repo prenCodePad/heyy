@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:heyy/models/models.dart';
-import 'package:uuid/uuid.dart';
+import 'package:heyy_backend/heyy_backend.dart';
 
 enum ChatView { allChat, specificChat }
 
@@ -11,6 +9,7 @@ class HomeController extends GetxController {
   final users = User.users.obs;
   final userSelected = Rxn<User>();
   final chatView = ChatView.allChat.obs;
+
   final selectedUserMessages = <Message>[].obs;
   final userSearchResults = User.users.obs;
 
@@ -40,7 +39,7 @@ class HomeController extends GetxController {
       selectedUserMessages.value = [];
     } else {
       chatView.value = ChatView.specificChat;
-      selectedUserMessages.value = user.messages;
+      //selectedUserMessages.value = user.messages;
     }
   }
 
@@ -50,7 +49,7 @@ class HomeController extends GetxController {
   }
 
   addMessage(Message msg) {
-    userSelected.value!.messages.add(msg);
+    // userSelected.value!.messages.add(msg);
     messageController.text = '';
     userSelected.refresh();
   }

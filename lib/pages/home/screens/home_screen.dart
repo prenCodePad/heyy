@@ -45,7 +45,7 @@ class _AllChat extends StatelessWidget with AppMixin {
               child: TextFormField(
                 textAlign: TextAlign.center,
                 controller: hc.userSearchController,
-                onChanged: hc.searchUser,
+                //onChanged: hc.searchUser,
                 cursorColor: Colors.white,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
@@ -76,7 +76,7 @@ class _AllChat extends StatelessWidget with AppMixin {
               itemBuilder: (_, i) => SizedBox(
                     height: 96,
                     child: InkWell(
-                      onTap: () => hc.selectUser(users[i]),
+                      //onTap: () => hc.selectUser(users[i]),
                       child: Card(
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(56)),
                         child: Padding(
@@ -99,7 +99,7 @@ class _AllChat extends StatelessWidget with AppMixin {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(users[i].name, style: theme.displaySubTitle1()),
-                                    Text(users[i].messages.last.text, style: theme.body()),
+                                    //Text(users[i].messages.last.text, style: theme.body()),
                                   ],
                                 ),
                               ),
@@ -137,9 +137,10 @@ class _SpecificChat extends StatelessWidget with AppMixin {
                     fillColor: Colors.transparent,
                     filled: true,
                     suffixIcon: IconButton(
-                      onPressed: () => hc.addMessage(
-                        hc.createMessage(hc.messageController.text, true),
-                      ),
+                      // onPressed: () => hc.addMessage(
+                      //   hc.createMessage(hc.messageController.text, true),
+                      // ),
+                      onPressed: () {},
                       icon: const Icon(
                         Icons.arrow_circle_right,
                         size: 30,
@@ -154,7 +155,7 @@ class _SpecificChat extends StatelessWidget with AppMixin {
                 ),
               ),
             )
-          : msg.isMine
+          : false
               ? Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
@@ -187,7 +188,8 @@ class _SpecificChat extends StatelessWidget with AppMixin {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               IconButton(
-                  onPressed: () => hc.selectUser(null),
+                  // onPressed: () => hc.selectUser(null),
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.keyboard_arrow_left_outlined,
                     color: Colors.white,
