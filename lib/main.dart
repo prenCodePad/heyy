@@ -1,5 +1,5 @@
 //Author Praveen Pilli.
-import 'package:firebase_app_check/firebase_app_check.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:heyy/config/get_it_registrations.dart';
@@ -11,15 +11,6 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: 'recaptcha-v3-site-key',
-    // Default provider for Android is the Play Integrity provider. You can use the "AndroidProvider" enum to choose
-    // your preferred provider. Choose from:
-    // 1. debug provider
-    // 2. safety net provider
-    // 3. play integrity provider
-    androidProvider: AndroidProvider.debug,
-  );
   setPathUrlStrategy();
   GetItRegistration.init().then((v) => runApp(const MyApp()));
 }

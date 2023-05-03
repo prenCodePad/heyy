@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "450200143151",
+    "firebase_url": "https://heyy-7c685-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "heyy-7c685",
+    "storage_bucket": "heyy-7c685.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450200143151:android:a9da177dbeb155bd708dda",
+        "android_client_info": {
+          "package_name": "com.praveen.heyy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450200143151-sa9ho31pjqblc5gf5de2b4l46qis8d70.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.praveen.heyy",
+            "certificate_hash": "13754c7790234c1ae2aa3c433bb4448cb528ca35"
+          }
+        },
+        {
+          "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLzTAMDy_DN20Kdt7oesaa7a-wgXOt8Xc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450200143151-9sduif64nt1iefchqtdgg9k6ecrn81cc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "450200143151-ch1sugr5liipnda22osctjaps9gsfumj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.skeleton.flutterApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

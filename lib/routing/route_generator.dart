@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heyy/config/storage_prefs.dart';
 
 import '../pages/pages.dart';
 import 'package:heyy/routing/routes.dart';
@@ -6,8 +7,11 @@ import 'package:heyy/routing/routes.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     var path = settings.name;
-    print("hii ${path}");
-    if (settings.name == '/') path = Routes.loginPage;
+    if (StoragePrefs.getStorageValue('loggedIn') ?? false) {
+      path = Routes.homePage;
+    } else {
+      path = Routes.loginPage;
+    }
     switch (path) {
       case Routes.loginPage:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => const LoginPage(), settings: settings);

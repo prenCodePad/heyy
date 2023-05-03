@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heyy/common/app_mixin.dart';
 import 'package:heyy/pages/pages.dart';
 import 'package:heyy/routing/routes.dart';
@@ -43,11 +44,20 @@ class UserSetupScreen extends StatelessWidget with AppMixin {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Button(
-                        text: 'Next',
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.homePage);
-                        }),
+                    child: Obx(() {
+                      return Button(
+                          text: snc.setupLoader.value ? 'Signing in...' : 'Next',
+                          onPressed: () async {
+                            if (snc.nameController.text.isNotEmpty) {
+                              if (!snc.setupLoader.value) {
+                                await snc.setUser();
+                                Navigator.pushNamed(context, Routes.homePage);
+                              }
+                            } else {
+                              Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
+                            }
+                          });
+                    }),
                   )
                 ],
               ),

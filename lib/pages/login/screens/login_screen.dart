@@ -79,15 +79,15 @@ class LoginScreen extends StatelessWidget with AppMixin {
                 child: Button(
                     text: 'SignIn',
                     onPressed: () async {
-                      await snc.getOtp(onComplete: (_) {}).then((value) {});
-                      Navigator.of(context).pop();
-                      // if (snc.phoneNo.value.isEmpty) {
-                      //   Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
-                      //   return;
-                      // }
-                      // snc.loginView.value = LoginView.otpView;
-                      // await snc.getOtp(onComplete: (_) {});
-                      // Navigator.pushNamed(context, Routes.otpPage);
+                      // await snc.getOtp(onComplete: (_) {}).then((value) {});
+                      // Navigator.of(context).pop();
+                      if (snc.phoneNo.value.isEmpty) {
+                        Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
+                        return;
+                      }
+                      snc.loginView.value = LoginView.otpView;
+                      await snc.getOtp(onComplete: (_) {});
+                      Navigator.pushNamed(context, Routes.otpPage);
                     }),
               ),
             ],
