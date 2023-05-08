@@ -13,14 +13,17 @@ mixin AppMixin {
   AppTheme get theme => GetIt.I<AppTheme>();
   SignInController get snc => Get.put(SignInController());
   LoginRepo get loginRepo => LoginRepoImpl();
+  ChatRepo get chatRepo => ChatRepoApi();
+  String initials(String name) => '${name[0]}${name[1]}';
 
   Future<void> logoutUser() async {
-    await loginRepo.updateUser(
-        StoragePrefs.getStorageValue('id'), {'isOnline': false, 'lastSeen': DateTime.now().millisecondsSinceEpoch});
+    await loginRepo.updateUser(StoragePrefs.getStorageValue('id'), {
+      'isOnline': false,
+      'lastSeen': DateTime.now().millisecondsSinceEpoch,
+    });
     StoragePrefs.setStorageValue('loggedIn', false);
     StoragePrefs.setStorageValue('id', null);
     StoragePrefs.setStorageValue('phone', null);
-
     await FirebaseAuth.instance.signOut();
     Get.offAndToNamed(Routes.loginPage);
   }

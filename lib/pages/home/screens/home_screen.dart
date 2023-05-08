@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:heyy/common/app_mixin.dart';
 import 'package:heyy/controllers/home_controller.dart';
@@ -65,24 +69,35 @@ class _AllChat extends StatelessWidget with AppMixin {
             padding: const EdgeInsets.only(left: 12, right: 12, bottom: 30, top: 20),
             child: SizedBox(
               height: 48,
-              child: TextFormField(
-                textAlign: TextAlign.center,
-                controller: hc.userSearchController,
-                //onChanged: hc.searchUser,
-                cursorColor: Colors.white,
-                style: const TextStyle(color: Colors.white),
-                decoration: InputDecoration(
-                  fillColor: Colors.transparent.withOpacity(0.1),
-                  filled: true,
-                  suffixIcon: const Icon(
-                    Icons.search,
-                    size: 30,
-                    color: Colors.white,
-                  ),
-                  contentPadding: const EdgeInsets.all(16.0),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(25.0),
+              child: TypeAheadFormField<Map<String, dynamic>>(
+                itemBuilder: (context, itemData) {
+                  return ListTile(
+                    leading: Text(itemData['name']),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {},
+                suggestionsCallback: (pattern) async {
+                  var items = await loginRepo.searchUser(pattern);
+                  return items;
+                },
+                textFieldConfiguration: TextFieldConfiguration(
+                  textAlign: TextAlign.center,
+                  controller: hc.userSearchController,
+                  cursorColor: Colors.white,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    fillColor: Colors.transparent.withOpacity(0.1),
+                    filled: true,
+                    suffixIcon: const Icon(
+                      Icons.search,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    contentPadding: const EdgeInsets.all(16.0),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
                   ),
                 ),
               ),
@@ -90,50 +105,62 @@ class _AllChat extends StatelessWidget with AppMixin {
           ),
         ],
       ),
-      mainChild: Obx(
-        () {
-          var users = hc.userSearchResults;
+      mainChild: StreamBuilder(
+        stream: chatRepo.getStreamedConversations(hc.id),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            var users = snapshot.data?.docs ?? [];
 
-          return ListView.separated(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              itemBuilder: (_, i) => SizedBox(
-                    height: 96,
-                    child: InkWell(
-                      //onTap: () => hc.selectUser(users[i]),
-                      child: Card(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(56)),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 36,
-                                backgroundColor: const Color(0xff1BD7BB),
-                                child: Text(
-                                  users[i].initials,
-                                  style: theme.beautyTitle1(color: Colors.white),
+            if (users.isNotEmpty) {
+              return ListView.separated(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  itemBuilder: (_, i) {
+                    var user = users[i].data() as Map<String, dynamic>;
+                    return SizedBox(
+                      height: 96,
+                      child: InkWell(
+                        //onTap: () => hc.selectUser(users[i]),
+                        child: Card(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(56)),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: 36,
+                                  backgroundColor: const Color(0xff1BD7BB),
+                                  child: Text(
+                                    initials(user['name']),
+                                    style: theme.beautyTitle1(color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(users[i].name, style: theme.displaySubTitle1()),
-                                    //Text(users[i].messages.last.text, style: theme.body()),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(user['name'], style: theme.displaySubTitle1()),
+                                      Text(user['lastMessage'], style: theme.body()),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-              separatorBuilder: (_, i) => const SizedBox(height: 5),
-              itemCount: users.length);
+                    );
+                  },
+                  separatorBuilder: (_, i) => const SizedBox(height: 5),
+                  itemCount: users.length);
+            } else {
+              return Text('Start chatting!!!', style: theme.body(color: Colors.black));
+            }
+          } else {
+            return Text('Start chatting!!!', style: theme.body(color: Colors.black));
+          }
         },
       ),
     );
