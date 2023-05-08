@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:heyy/common/app_mixin.dart';
+import 'package:heyy/controllers/home_controller.dart';
 import 'package:heyy/routing/routes.dart';
 import 'package:get/get.dart';
 
 class HomeScreenWide extends StatelessWidget with AppMixin {
   const HomeScreenWide({Key? key}) : super(key: key);
+  HomeController get hc => Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {

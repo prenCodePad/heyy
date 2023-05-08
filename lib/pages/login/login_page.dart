@@ -5,6 +5,7 @@ import 'package:heyy/pages/login/screens/login_screen_wide.dart';
 import 'package:heyy/pages/login/screens/otp_screen.dart';
 import 'package:heyy/pages/login/screens/user_setup_screen.dart';
 import 'package:heyy/responsivelayout.dart';
+import 'package:heyy/routing/routes.dart';
 
 import '../../common/common.dart';
 
@@ -28,10 +29,10 @@ class LoginNarrowLayout extends StatelessWidget with AppMixin {
 
   @override
   Widget build(BuildContext context) {
-    switch (snc.loginView.value) {
-      case LoginView.otpView:
+    switch (ModalRoute.of(context)?.settings.name ?? '') {
+      case Routes.otpPage:
         return const OTPScreen();
-      case LoginView.userSetupView:
+      case Routes.userSetupPage:
         return const UserSetupScreen();
       default:
         return const LoginScreen();

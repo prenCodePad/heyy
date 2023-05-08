@@ -85,7 +85,6 @@ class LoginScreen extends StatelessWidget with AppMixin {
                         Get.snackbar("Error", "Please provide phone number", backgroundColor: Colors.white);
                         return;
                       }
-                      snc.loginView.value = LoginView.otpView;
                       await snc.getOtp(onComplete: (_) {});
                       Navigator.pushNamed(context, Routes.otpPage);
                     }),

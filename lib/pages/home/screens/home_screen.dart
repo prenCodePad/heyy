@@ -6,6 +6,7 @@ import 'package:heyy/pages/pages.dart';
 
 class HomeScreen extends StatelessWidget with AppMixin {
   const HomeScreen({Key? key}) : super(key: key);
+  HomeController get hc => Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,8 @@ class HomeScreen extends StatelessWidget with AppMixin {
 class _AllChat extends StatelessWidget with AppMixin {
   const _AllChat({Key? key}) : super(key: key);
 
+  HomeController get hc => Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return HomeLayout(
@@ -32,10 +35,30 @@ class _AllChat extends StatelessWidget with AppMixin {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Text(
-              'Chat with\nyour friends',
-              textAlign: TextAlign.left,
-              style: theme.displayTitle1(color: Colors.white),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Chat with\nyour friends',
+                  textAlign: TextAlign.left,
+                  style: theme.displayTitle1(color: Colors.white),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: PopupMenuButton(
+                      color: Colors.white,
+                      itemBuilder: (context) {
+                        return [
+                          PopupMenuItem(
+                              child: const Text(
+                                'Log Out',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              onTap: () async => await logoutUser())
+                        ];
+                      }),
+                ),
+              ],
             ),
           ),
           Padding(
@@ -119,6 +142,8 @@ class _AllChat extends StatelessWidget with AppMixin {
 
 class _SpecificChat extends StatelessWidget with AppMixin {
   const _SpecificChat({Key? key}) : super(key: key);
+
+  HomeController get hc => Get.put(HomeController());
 
   List<Widget> _listOfMessages() {
     var user = hc.userSelected.value!;

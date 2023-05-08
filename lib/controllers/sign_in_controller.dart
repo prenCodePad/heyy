@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +13,7 @@ class SignInController extends GetxController {
   final isLoggedIn = false.obs;
   final phoneNo = ''.obs;
   final userName = ''.obs;
-  final loginView = LoginView.loginView.obs;
+  final user = Rxn<Map<String, dynamic>>();
   final otp = ''.obs;
   final setupLoader = false.obs;
 
@@ -61,18 +63,34 @@ class SignInController extends GetxController {
     setupLoader.value = true;
     var uuid = const Uuid().v4();
     var id = FirebaseAuth.instance.currentUser?.uid ?? uuid;
-    await _loginRepo.setUser(id, {'id': id, 'name': nameController.text, 'phone': phoneNo.value}).then((value) {
+    var data = {'id': id, 'name': nameController.text, 'phone': phoneNo.value, 'isOnline': true, 'lastSeen': 0};
+    await _loginRepo.setUser(id, data).then((value) {
       StoragePrefs.setStorageValue('loggedIn', true);
       StoragePrefs.setStorageValue('id', id);
       StoragePrefs.setStorageValue('phone', phoneNo.value);
+      user.value = data;
     });
     setupLoader.value = false;
   }
 
-  Future<void> getUser() async {
-    await _loginRepo.getUser(StoragePrefs.getStorageValue('id')).then((v) {
-      userName.value = v['name'];
-      phoneNo.value = v['phone'];
-    });
+  Future<bool> getUser() async {
+    try {
+      var data = await _loginRepo.getUserWithPhone(phoneNo.value).then((v) {
+        print('dats $v');
+        if (v.isNotEmpty) {
+          StoragePrefs.setStorageValue('loggedIn', true);
+          StoragePrefs.setStorageValue('id', v['id']);
+          StoragePrefs.setStorageValue('phone', phoneNo.value);
+          userName.value = v['name'];
+          phoneNo.value = v['phone'];
+          user.value = v;
+        }
+        return v;
+      });
+      print('${data.isNotEmpty} :::::::::::::::::::::');
+      return data.isNotEmpty;
+    } catch (e) {
+      return false;
+    }
   }
 }
