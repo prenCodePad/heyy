@@ -24,6 +24,13 @@ class ChatController extends GetxController with AppMixin {
     if (textMsgController.text.isNotEmpty) sendingTextMessage.value = true;
   }
 
+  @override
+  void dispose() {
+    textMsgController.dispose();
+    chatScrollCtlr.dispose();
+    super.dispose();
+  }
+
   Future<void> sendMessage() async {
     try {
       await chatRepo.addConversation(userId, {

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:heyy/config/storage_prefs.dart';
+import 'package:heyy/controllers/chat_controller.dart';
 import 'package:heyy/routing/routes.dart';
 import 'package:heyy_backend/heyy_backend.dart';
 
@@ -55,6 +56,9 @@ mixin AppMixin {
     StoragePrefs.setStorageValue('id', null);
     StoragePrefs.setStorageValue('phone', null);
     await FirebaseAuth.instance.signOut();
-    Get.offAndToNamed(Routes.loginPage);
+    Get.delete<SignInController>();
+    Get.delete<ChatController>();
+    Get.delete<HomeController>();
+    Get.offAllNamed(Routes.loginPage);
   }
 }

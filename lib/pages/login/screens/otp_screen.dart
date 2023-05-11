@@ -67,13 +67,18 @@ class OTPScreen extends StatelessWidget with AppMixin {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Row(children: [
                       Expanded(
-                        child: Button(text: 'Resend Code', onPressed: () {}),
+                        child: Button(
+                            text: 'Resend Code',
+                            onPressed: () {
+                              snc.codeController.clear();
+                            }),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Button(
                           text: 'Change No?',
                           onPressed: () {
+                            snc.codeController.clear();
                             Navigator.pushNamed(context, Routes.loginPage);
                           },
                         ),
