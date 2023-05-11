@@ -8,7 +8,6 @@ enum ChatView { allChat, specificChat }
 class HomeController extends GetxController {
   final counter = 0.obs;
   final users = <Map<String, dynamic>>[].obs;
-  final userSelected = Rxn<User>();
   final chatView = ChatView.allChat.obs;
 
   final selectedUserMessages = <Message>[].obs;
@@ -42,28 +41,11 @@ class HomeController extends GetxController {
     return (await _loginRepo.searchUser(searchPhone)).where((e) => e['id'] != id).toList();
   }
 
-  selectContact(User? user) {
-    userSelected.value = user;
-    if (user == null) {
-      chatView.value = ChatView.allChat;
-      selectedUserMessages.value = [];
-    } else {
-      chatView.value = ChatView.specificChat;
-      //selectedUserMessages.value = user.messages;
-    }
-  }
-
   var countryCodes = ['US', 'CA', 'AU', 'GB', 'IN', 'MX'];
 
   createMessage(String text) {
     var now = DateTime.now().millisecondsSinceEpoch;
     return Message(id: now.toString(), text: text, time: now, from: '', to: '');
-  }
-
-  addMessage(Message msg) {
-    // userSelected.value!.messages.add(msg);
-    messageController.text = '';
-    userSelected.refresh();
   }
 
   @override

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -68,6 +66,7 @@ class SignInController extends GetxController {
       StoragePrefs.setStorageValue('loggedIn', true);
       StoragePrefs.setStorageValue('id', id);
       StoragePrefs.setStorageValue('phone', phoneNo.value);
+      StoragePrefs.setStorageValue('name', nameController.text);
       user.value = data;
     });
     setupLoader.value = false;
@@ -76,18 +75,17 @@ class SignInController extends GetxController {
   Future<bool> getUser() async {
     try {
       var data = await _loginRepo.getUserWithPhone(phoneNo.value).then((v) {
-        print('dats $v');
         if (v.isNotEmpty) {
           StoragePrefs.setStorageValue('loggedIn', true);
           StoragePrefs.setStorageValue('id', v['id']);
           StoragePrefs.setStorageValue('phone', phoneNo.value);
+          StoragePrefs.setStorageValue('name', v['name']);
           userName.value = v['name'];
           phoneNo.value = v['phone'];
           user.value = v;
         }
         return v;
       });
-      print('${data.isNotEmpty} :::::::::::::::::::::');
       return data.isNotEmpty;
     } catch (e) {
       return false;
