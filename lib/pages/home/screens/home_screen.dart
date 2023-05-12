@@ -166,7 +166,7 @@ class _AllChat extends StatelessWidget with AppMixin {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(user['name'], style: theme.displaySubTitle1()),
-                                      Text(user['lastMessage'], style: theme.body()),
+                                      Text(decrypt(user['lastMessage']), style: theme.body()),
                                     ],
                                   ),
                                 ),

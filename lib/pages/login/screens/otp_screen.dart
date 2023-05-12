@@ -46,21 +46,27 @@ class OTPScreen extends StatelessWidget with AppMixin {
                   const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                    child: Button(
-                      text: 'Verify',
-                      onPressed: () async {
-                        await snc.loginUser().then((value) async {
-                          if (value) {
-                            if (!await snc.getUser()) {
-                              Navigator.pushNamed(context, Routes.userSetupPage);
-                            } else {
-                              Navigator.pushNamed(context, Routes.homePage);
-                            }
-                          } else {
-                            Get.snackbar('Warning', 'Incorrect Otp');
+                    child: Obx(
+                      () => Button(
+                        text: snc.setupLoader.value ? 'Loading...' : 'Verify',
+                        onPressed: () async {
+                          if (!snc.setupLoader.value) {
+                            snc.setupLoader.value = true;
+                            await snc.loginUser().then((value) async {
+                              if (value) {
+                                if (!await snc.getUser()) {
+                                  Navigator.pushNamed(context, Routes.userSetupPage);
+                                } else {
+                                  Navigator.pushNamed(context, Routes.homePage);
+                                }
+                              } else {
+                                Get.snackbar('Warning', 'Incorrect Otp');
+                              }
+                            });
+                            snc.setupLoader.value = false;
                           }
-                        });
-                      },
+                        },
+                      ),
                     ),
                   ),
                   Padding(

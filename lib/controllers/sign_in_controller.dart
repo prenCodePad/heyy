@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heyy/config/storage_prefs.dart';
@@ -69,6 +70,7 @@ class SignInController extends GetxController {
       StoragePrefs.setStorageValue('name', nameController.text);
       user.value = data;
     });
+    FirebaseMessaging.instance.subscribeToTopic(StoragePrefs.getStorageValue('id'));
     setupLoader.value = false;
   }
 
@@ -83,6 +85,7 @@ class SignInController extends GetxController {
           userName.value = v['name'];
           phoneNo.value = v['phone'];
           user.value = v;
+          FirebaseMessaging.instance.subscribeToTopic(StoragePrefs.getStorageValue('id'));
         }
         return v;
       });

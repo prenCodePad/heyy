@@ -23,8 +23,8 @@ class ChatInput extends StatelessWidget with AppMixin {
           HeyyTextField(controller: chatController.textMsgController),
           const SizedBox(width: 10),
           _sendActionButton(
-            onTap: () {
-              if (chatController.textMsgController.text.isNotEmpty) chatController.sendMessage();
+            onTap: () async {
+              if (chatController.textMsgController.text.isNotEmpty) await chatController.sendMessage();
             },
             child: const Icon(Icons.arrow_right_alt_outlined, color: Color(0xff1BD7BB)),
           )

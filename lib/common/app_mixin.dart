@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:heyy/config/storage_prefs.dart';
@@ -17,6 +18,7 @@ mixin AppMixin {
   SignInController get snc => Get.put(SignInController());
   LoginRepo get loginRepo => LoginRepoImpl();
   ChatRepo get chatRepo => ChatRepoApi();
+  NotificationRepositiory get notificationRepo => const NotificationRepositoryImpl();
   String initials(String name) => '${name[0]}${name[1]}';
   DateTime today(DateTime now) => DateTime(now.year, now.month, now.day);
   DateTime yesterday(DateTime now) => DateTime(now.year, now.month, now.day - 1);
@@ -42,9 +44,13 @@ mixin AppMixin {
 
 //dycrypt
   String decrypt(String text) {
-    final key = Key.fromUtf8('put32charactershereeeeeeeeeeeee!');
-    final e = Encrypter(AES(key, mode: AESMode.cbc));
-    return e.decrypt(Encrypted.fromBase64(text), iv: iv);
+    try {
+      final key = Key.fromUtf8('put32charactershereeeeeeeeeeeee!');
+      final e = Encrypter(AES(key, mode: AESMode.cbc));
+      return e.decrypt(Encrypted.fromBase64(text), iv: iv);
+    } catch (e) {
+      return text;
+    }
   }
 
   Future<void> logoutUser() async {
@@ -52,10 +58,11 @@ mixin AppMixin {
       'isOnline': false,
       'lastSeen': DateTime.now().millisecondsSinceEpoch,
     });
+    await FirebaseAuth.instance.signOut();
+    await FirebaseMessaging.instance.unsubscribeFromTopic(StoragePrefs.getStorageValue('id'));
     StoragePrefs.setStorageValue('loggedIn', false);
     StoragePrefs.setStorageValue('id', null);
     StoragePrefs.setStorageValue('phone', null);
-    await FirebaseAuth.instance.signOut();
     Get.delete<SignInController>();
     Get.delete<ChatController>();
     Get.delete<HomeController>();
